@@ -45,21 +45,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    db = openOrCreateDatabase("banco_dados", Context.MODE_PRIVATE, null);
-                    db.execSQL("CREATE TABLE IF NOT EXISTS usuarios (" +
-                            "numreg INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "nome TEXT NOT NULL, telefone TEXT NOT NULL, email TEXT NOT NULL, senha TEXT NOT NULL)");
+                    // Usa o helper para criar o banco
+                    DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this);
+                    SQLiteDatabase db = dbHelper.getWritableDatabase(); // cria o banco e tabela se ainda não existir
 
                     AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.this);
                     dialogo.setTitle("Aviso")
-                            .setMessage("Banco de dados criado com sucesso!")
+                            .setMessage("Banco de dados criado (ou já existente) com sucesso!")
                             .setNeutralButton("OK", null)
                             .show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                    AlertDialog.Builder erro = new AlertDialog.Builder(MainActivity.this);
+                    erro.setTitle("Erro")
+                            .setMessage("Falha ao criar o banco: " + e.getMessage())
+                            .setNeutralButton("OK", null)
+                            .show();
                 }
             }
         });
+
 
         btcadastrardados.setOnClickListener(new View.OnClickListener() {
             @Override
