@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/fundo1">
+
+
+    <LinearLayout
+        android:id="@+id/layoutCorFundo"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="#054F77"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:text="@string/peekaboo"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/imagemCentral"
+            android:layout_width="450dp"
+            android:layout_height="405dp"
+
+            android:contentDescription="@string/todo"
+            android:src="@drawable/fundo_bem_vindo" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btcriarbanco"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0A6FA1"
+                android:text="@string/criar_banco_de_dados" />
+
+            <Button
+                android:id="@+id/btcadastrardados"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0A6FA1"
+                android:text="@string/cadastrar_dados"
+                tools:ignore="TextSizeCheck" />
+
+            <Button
+                android:id="@+id/btlogin"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0A6FA1"
+                android:text="@string/login"
+                tools:ignore="TextSizeCheck" />
+
+            <Button
+                android:id="@+id/btconsultardados"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0A6FA1"
+                android:text="@string/consultar_dados" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

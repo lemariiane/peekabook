@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">AplicacaoBancoDeDados</string>
+    <string name="peekaboo">PEEKABOO</string>
+    <string name="criar_banco_de_dados">Criar Banco de Dados</string>
+    <string name="todo">TODO</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="e_mail">E-Mail:</string>
+    <string name="cadastro_de_usu_rio">Cadastro de Usuário</string>
+    <string name="telefone">Telefone:</string>
+    <string name="senha">Senha:</string>
+    <string name="nome">Nome:</string>
+    <string name="esta_aplica_o_ir_registrar_as_informa_es_do_usu_rio_no_banco_de_dados">Esta aplicação irá registrar as informações do usuário no Banco de Dados.</string>
+    <string name="digite_seu_nome">Digite seu nome</string>
+    <string name="digite_seu_telefone">Digite seu telefone</string>
+    <string name="digite_seu_email">Digite seu email</string>
+    <string name="digite_sua_senha">Digite sua senha</string>
+    <string name="cadastrar_dados">Cadastrar Dados</string>
+    <string name="login">Entrar</string>
+    <string name="status">#status</string>
+    <string name="consultar_dados">Consultar Dados</string>
+    <string name="nomeConsulta">[Nome]</string>
+    <string name="telefoneConsulta">[Telefone]</string>
+    <string name="emailConsulta">[E-Mail]</string>
+</resources>
