@@ -45,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    // Usa o helper para criar o banco
                     DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this);
-                    SQLiteDatabase db = dbHelper.getWritableDatabase(); // cria o banco e tabela se ainda não existir
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
 
                     AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.this);
                     dialogo.setTitle("Aviso")
@@ -84,6 +83,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(loginActivity);
             }
         });
+
+        btcadastrar_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View args0) {
+                Intent cadastroA = new Intent(MainActivity.this,
+                        Cadastrar_user.class);
+                startActivity(cadastroA);
+            }
+        });
+
 
         btconsultardados.setOnClickListener(new View.OnClickListener() {
             @Override

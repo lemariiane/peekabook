@@ -4,14 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.*;
 
@@ -19,7 +13,8 @@ public class Login extends AppCompatActivity {
 
     Button btlogin;
     EditText edemail, edsenha;
-    SQLiteDatabase db;
+    TextView signupRedirectText;
+    DatabaseHelper dbHelper;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,44 +26,38 @@ public class Login extends AppCompatActivity {
         btlogin = findViewById(R.id.btlogin);
         edemail = findViewById(R.id.edemail);
         edsenha = findViewById(R.id.edsenha);
+        signupRedirectText = findViewById(R.id.signupRedirectText);
 
-        db = openOrCreateDatabase("banco_dados", Context.MODE_PRIVATE, null);
+        dbHelper = new DatabaseHelper(this);
 
         btlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edemail.getText().toString();
-                String senha = edsenha.getText().toString();
+                String email = edemail.getText().toString().trim();
+                String senha = edsenha.getText().toString().trim();
 
                 if (email.isEmpty() || senha.isEmpty()) {
                     MostraMensagem("Preencha todos os campos!");
                     return;
                 }
 
-                try {
-                    Cursor cursor = db.rawQuery(
-                            "SELECT * FROM usuarios WHERE email=? AND senha=?",
-                            new String[]{email, senha}
-                    );
+                Boolean checkUserPass = dbHelper.checkEmailPassword(email, senha);
 
-                    if (cursor.moveToFirst()) {
-
-                        Intent i = new Intent(Login.this, MainActivity.class);
-                        startActivity(i);
-                    } else {
-                        MostraMensagem("Usuário não encontrado. Verifique seus dados!");
-                    }
-                    cursor.close();
-                } catch (Exception e) {
-                    MostraMensagem("Erro: " + e.toString());
+                if (checkUserPass) {
+                    Intent i = new Intent(Login.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    MostraMensagem("Usuário não encontrado. Verifique seus dados!");
                 }
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        signupRedirectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, Cadastrar_user.class);
+                startActivity(intent);
+            }
         });
     }
 

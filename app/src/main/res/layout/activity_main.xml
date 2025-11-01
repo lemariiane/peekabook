@@ -67,6 +67,14 @@
                 tools:ignore="TextSizeCheck" />
 
             <Button
+                android:id="@+id/btcadastrar_user"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0A6FA1"
+                android:text="@string/login"
+                tools:ignore="TextSizeCheck" />
+
+            <Button
                 android:id="@+id/btlogin"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"

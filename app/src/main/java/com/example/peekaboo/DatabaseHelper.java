@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String databaseName = "SignLog.db";
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, databaseName, null, 1);
+        super(context, databaseName, null, 2);
     }
 
     @Override

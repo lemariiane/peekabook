@@ -21,12 +21,12 @@ public class Cadastrar_user extends AppCompatActivity {
         EditText signupNome = findViewById(R.id.signup_nome);
         EditText signupEmail = findViewById(R.id.signup_email);
         EditText signupPassword = findViewById(R.id.signup_password);
-        Button signupButton = findViewById(R.id.btcadastrar_user);
+        Button btcadastrar_user = findViewById(R.id.btcadastrar_user);
         TextView loginRedirectText = findViewById(R.id.loginRedirectText);
 
         databaseHelper = new DatabaseHelper(this);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        btcadastrar_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nome = signupNome.getText().toString();
@@ -34,18 +34,18 @@ public class Cadastrar_user extends AppCompatActivity {
                 String password = signupPassword.getText().toString();
 
                 if (nome.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(activity_cadastrar_user.this, "Todos os campos são obrigatórios", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastrar_user.this, "Todos os campos são obrigatórios", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!databaseHelper.checkEmail(email)) {
                         boolean insert = databaseHelper.insertData(nome, email, password);
                         if (insert) {
-                            Toast.makeText(SignupActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Cadastrar_user.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), Login.class));
                         } else {
-                            Toast.makeText(SignupActivity.this, "Falha ao cadastrar!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Cadastrar_user.this, "Falha ao cadastrar!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignupActivity.this, "Usuário já existe! Faça login.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Cadastrar_user.this, "Usuário já existe! Faça login.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -54,7 +54,7 @@ public class Cadastrar_user extends AppCompatActivity {
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignupActivity.this, Login.class));
+                startActivity(new Intent(Cadastrar_user.this, Login.class));
             }
         });
     }
