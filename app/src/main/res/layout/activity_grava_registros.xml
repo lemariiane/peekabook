@@ -1,63 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context=".activity_grava_registros"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#3ba0e2" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#3ba0e2" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-
-            android:contentDescription="@string/todo" />
+        android:id="@+id/layoutCorFundo"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="#f4797d"
+        android:gravity="center" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="CADASTRO DE ANIMAL"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-        <LinearLayout
-            android:id="@+id/layoutCorFundo"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:background="#f4797d"
-            android:gravity="center" >
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cadastro_de_usu_rio"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#5E35B1" />
-        </LinearLayout>
+            android:textColor="#5E35B1" />
     </LinearLayout>
+</LinearLayout>
+
     <LinearLayout
         android:id="@+id/layoutImagemFundo"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="16dp"> <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insira os dados do seu pet para registro:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"/>
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/esta_aplica_o_ir_registrar_as_informa_es_do_usu_rio_no_banco_de_dados"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/nome"
+            android:text="Nome do Pet"
             android:textColor="#000000"
             android:textSize="18sp" />
 
@@ -65,76 +53,65 @@
             android:id="@+id/ednome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/digite_seu_nome"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize"
-            tools:targetApi="o">
-
-            <requestFocus />
-        </EditText>
+            android:hint="Digite o nome do animal"
+            android:inputType="textCapWords"
+            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <TextView
-            android:id="@+id/TextView01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/telefone"
+            android:text="Espécie"
             android:textColor="#000000"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edtelefone"
+            android:id="@+id/especie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/digite_seu_telefone"
-            android:importantForAutofill="no"
+            android:hint="Cão, Gato, Pássaro, Raça (Ex: Labrador)"
             android:inputType="text"
             android:minHeight="48dp"
-            tools:targetApi="o"
             tools:ignore="VisualLintTextFieldSize" />
+
         <TextView
-            android:id="@+id/TextView02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/e_mail"
+            android:text="Data de Nascimento (dd/mm/aaaa)"
             android:textColor="#000000"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edemail"
+            android:id="@+id/datanasc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/digite_seu_email"
-            android:importantForAutofill="no"
-            android:inputType="text|textEmailAddress"
+            android:hint="01/01/2023 ou Idade Aproximada"
+            android:inputType="date"
             android:minHeight="48dp"
-            tools:targetApi="o"
             tools:ignore="VisualLintTextFieldSize" />
 
 
         <TextView
-            android:id="@+id/TextView05"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/senha"
+            android:text="Descrição / Observações (Opcional)"
             android:textColor="#000000"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/edsenha"
+            android:id="@+id/descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/digite_sua_senha"
-            android:inputType="textPassword"
+            android:hint="Cor, marcas distintivas, problemas de saúde, etc."
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="5"
+            android:gravity="top|start"
             android:layout_marginBottom="12dp"/>
 
         <LinearLayout
@@ -146,8 +123,6 @@
                 android:id="@+id/btcadastrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cadastrar" />
-
-        </LinearLayout>
+                android:text="REGISTRAR PET" /> </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -44,8 +44,10 @@ public class Login extends AppCompatActivity {
                 Boolean checkUserPass = dbHelper.checkEmailPassword(email, senha);
 
                 if (checkUserPass) {
-                    Intent i = new Intent(Login.this, MainActivity.class);
+                    Intent i = new Intent(Login.this, Tela_principal.class);
+                    i.putExtra("user_email", email);
                     startActivity(i);
+                    finish(); // Adicionado para fechar a tela de login
                 } else {
                     MostraMensagem("Usuário não encontrado. Verifique seus dados!");
                 }
