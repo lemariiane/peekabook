@@ -9,13 +9,18 @@ import androidx.core.view.WindowInsetsCompat;
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.*;
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+import java.util.Calendar;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
 public class activity_grava_registros extends AppCompatActivity {
 
     Button btcadastrar;
     EditText ednome, especie, datanasc, descricao;
     DatabaseHelper dbHelper;
-    private int loggedInUserId = -1; // Variável para armazenar o ID do usuário
+    private int loggedInUserId = -1; // ID do usuário
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +43,17 @@ public class activity_grava_registros extends AppCompatActivity {
             return;
         }
 
+        btcadastrar = findViewById(R.id.btcadastrar);
+        ednome = findViewById(R.id.ednome);
+        especie = findViewById(R.id.especie);
+        datanasc = findViewById(R.id.datanasc);
+        descricao = findViewById(R.id.descricao);
 
-        btcadastrar = (Button) findViewById(R.id.btcadastrar);
-        ednome = (EditText) findViewById(R.id.ednome);
-        especie = (EditText) findViewById(R.id.especie);
-        datanasc = (EditText) findViewById(R.id.datanasc);
-        descricao = (EditText) findViewById(R.id.descricao);
+        datanasc.setOnClickListener(v -> showDatePickerDialog());
+        // Impede que o usuário digite no campo, forçando o uso do calendário
+        datanasc.setFocusable(false);
+        datanasc.setCursorVisible(false);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -86,6 +96,41 @@ public class activity_grava_registros extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Abre o diálogo do calendário para seleção de data de nascimento.
+     */
+    private void showDatePickerDialog() {
+        // Usa a data atual como padrão para inicializar o calendário
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear,
+                                          int selectedMonth, int selectedDay) {
+
+                        // O mês retornado é baseado em zero (0=Janeiro)
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                        datanasc.setText(sdf.format(selectedDate.getTime()));
+                    }
+                },
+                year, month, day);
+
+        // Impede a seleção de datas futuras
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+        datePickerDialog.show();
+    }
+
 
     public void MostraMensagem (String str){
         AlertDialog.Builder dialogo = new

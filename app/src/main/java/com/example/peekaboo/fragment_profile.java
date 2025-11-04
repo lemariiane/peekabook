@@ -1,5 +1,7 @@
 package com.example.peekaboo;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,41 +9,32 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_profile#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.textfield.TextInputEditText;
+
 public class fragment_profile extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_USER_ID = "user_id";
+    private int loggedInUserId = -1;
+    private DatabaseHelper dbHelper;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    private TextInputEditText editNome;
+    private TextInputEditText editEmail;
+    private TextInputEditText editPassword;
+    private Button btnSalvar;
+    private Button btnLogout;
 
     public fragment_profile() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_profile.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_profile newInstance(String param1, String param2) {
+    public static fragment_profile newInstance(int userId) {
         fragment_profile fragment = new fragment_profile();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,15 +43,107 @@ public class fragment_profile extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            loggedInUserId = getArguments().getInt(ARG_USER_ID, -1);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        if (getContext() != null) {
+            dbHelper = new DatabaseHelper(getContext());
+        }
+
+        editNome = view.findViewById(R.id.edit_nome_user);
+        editEmail = view.findViewById(R.id.edit_email_user);
+        editPassword = view.findViewById(R.id.edit_password_user);
+        btnSalvar = view.findViewById(R.id.btn_salvar_perfil);
+        btnLogout = view.findViewById(R.id.btn_logout);
+
+        loadUserProfile();
+
+        // Configura Listener para Salvar
+        btnSalvar.setOnClickListener(v -> saveProfileChanges());
+
+        // Configura Listener para Logout
+        btnLogout.setOnClickListener(v -> performLogout());
+
+        return view;
+    }
+
+    /**
+     * Carrega os dados do usuário logado e preenche os campos.
+     */
+    private void loadUserProfile() {
+        if (dbHelper == null || loggedInUserId == -1) {
+            Toast.makeText(getContext(), "Erro: ID do usuário inválido.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try (Cursor cursor = dbHelper.getUserDataById(loggedInUserId)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                editNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
+                editEmail.setText(cursor.getString(cursor.getColumnIndexOrThrow("email")));
+
+                // Senha não é carregada por segurança, apenas é editada
+                editPassword.setText("");
+            } else {
+                Toast.makeText(getContext(), "Usuário não encontrado.", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Erro ao carregar perfil: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Lógica de Salvar Alterações de Perfil
+     */
+    private void saveProfileChanges() {
+        String novoNome = editNome.getText().toString().trim();
+        String novaSenha = editPassword.getText().toString();
+
+        if (novoNome.isEmpty()) {
+            Toast.makeText(getContext(), "O nome não pode ser vazio.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String senhaParaSalvar = null;
+
+        // Se a caixa de senha NÃO estiver vazia, significa que o usuário quer mudar a senha
+        if (!novaSenha.isEmpty()) {
+            if (novaSenha.length() < 6) {
+                Toast.makeText(getContext(), "A nova senha deve ter pelo menos 6 caracteres.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            senhaParaSalvar = novaSenha; // hashPassword(novaSenha);
+        }
+
+        // Chama o método de UPDATE
+        if (dbHelper.updateUserData(loggedInUserId, novoNome, senhaParaSalvar)) {
+            Toast.makeText(getContext(), "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+            editPassword.setText("");
+
+            // Recarrega o perfil para confirmar os novos dados (especialmente útil se o nome for alterado)
+            loadUserProfile();
+        } else {
+            Toast.makeText(getContext(), "Nenhuma alteração foi salva ou ocorreu um erro.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Lógica de Logout
+     */
+    private void performLogout() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpa a pilha de Activities
+        startActivity(intent);
+        if (getActivity() != null) {
+            getActivity().finish();
+        }
+        Toast.makeText(getContext(), "Logout realizado.", Toast.LENGTH_SHORT).show();
     }
 }

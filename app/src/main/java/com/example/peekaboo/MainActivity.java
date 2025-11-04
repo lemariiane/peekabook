@@ -92,15 +92,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cadastroA);
             }
         });
-
-
-        btconsultardados.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View args0) {
-                Intent consultaDadosActivity = new Intent(MainActivity.this,
-                        ConsultaDadosActivity.class);
-                MainActivity.this.startActivity(consultaDadosActivity);
-            }
-        });
     }
 }

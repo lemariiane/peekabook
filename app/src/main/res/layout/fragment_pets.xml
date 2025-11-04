@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lavender"
+    android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".fragment_pets">
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/fragment_pets_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Meus Pets Cadastrados"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_pets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="pets"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/white"/>
-</FrameLayout>
+        android:scrollbars="vertical" />
+</LinearLayout>
