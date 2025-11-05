@@ -7,7 +7,17 @@ import android.database.Cursor;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.peekaboo.databinding.ActivityEditaPetBinding;
+
+// Imports necessários para o DatePickerDialog
+import android.app.DatePickerDialog;
+import android.widget.DatePicker;
+import java.util.Calendar;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.text.ParseException; // Necessário para parsear a data existente
+
+// Se você não está usando o binding em outras partes, pode remover este import
+// import com.example.peekaboo.databinding.ActivityEditaPetBinding;
 
 
 public class Activity_edita_pet extends AppCompatActivity {
@@ -23,8 +33,11 @@ public class Activity_edita_pet extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityEditaPetBinding binding = ActivityEditaPetBinding.inflate(getLayoutInflater());
-         setContentView(binding.getRoot());
+
+        // CORREÇÃO: Removendo o binding se você não estiver usando,
+        // e mantendo apenas uma chamada de setContentView.
+        // ActivityEditaPetBinding binding = ActivityEditaPetBinding.inflate(getLayoutInflater());
+        // setContentView(binding.getRoot());
         setContentView(R.layout.activity_edita_pet);
 
         dbHelper = new DatabaseHelper(this);
@@ -48,6 +61,14 @@ public class Activity_edita_pet extends AppCompatActivity {
             }
         }
 
+        // ==========================================================
+        // INTEGRAÇÃO DO DATEPICKER NO CAMPO DE DATA
+        // ==========================================================
+        editDataNasc.setOnClickListener(v -> showDatePickerDialog());
+        // Impede a digitação manual, forçando o uso do calendário
+        editDataNasc.setFocusable(false);
+        editDataNasc.setCursorVisible(false);
+
         btnSalvar.setOnClickListener(v -> {
             updatePet();
         });
@@ -61,6 +82,7 @@ public class Activity_edita_pet extends AppCompatActivity {
             try {
                 editNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
                 editEspecie.setText(cursor.getString(cursor.getColumnIndexOrThrow("especie")));
+                // Garante que a data salva (ex: dd/MM/yyyy) é exibida
                 editDataNasc.setText(cursor.getString(cursor.getColumnIndexOrThrow("datanasc")));
                 editDescricao.setText(cursor.getString(cursor.getColumnIndexOrThrow("descricao")));
             } catch (IllegalArgumentException e) {
@@ -77,6 +99,7 @@ public class Activity_edita_pet extends AppCompatActivity {
     private void updatePet() {
         String nome = editNome.getText().toString();
         String especie = editEspecie.getText().toString();
+        // A data agora é garantida pelo DatePicker no formato dd/MM/yyyy
         String dataNasc = editDataNasc.getText().toString();
         String descricao = editDescricao.getText().toString();
 
@@ -94,5 +117,54 @@ public class Activity_edita_pet extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Erro ao atualizar o pet.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Abre o diálogo do calendário, pré-selecionando a data existente.
+     */
+    private void showDatePickerDialog() {
+        // Usa a data atual como padrão para inicializar o calendário
+        final Calendar c = Calendar.getInstance();
+
+        // Tentativa de parsear a data existente (para o calendário abrir na data correta)
+        try {
+            // CORREÇÃO: Usando a variável de classe editDataNasc
+            String existingDate = editDataNasc.getText().toString();
+            if (!existingDate.isEmpty()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                c.setTime(sdf.parse(existingDate));
+            }
+        } catch (ParseException e) {
+            // Se a data for inválida, usa a data atual (padrão)
+        }
+
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        // Cria o DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear,
+                                          int selectedMonth, int selectedDay) {
+
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                        // Formato: dd/MM/yyyy
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                        // CORREÇÃO: Usando a variável de classe editDataNasc
+                        editDataNasc.setText(sdf.format(selectedDate.getTime()));
+                    }
+                },
+                year, month, day);
+
+        // Impede a seleção de datas futuras
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+        datePickerDialog.show();
     }
 }
