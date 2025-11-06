@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ArrayAdapter; // Necessário para o Spinner
 
 // Imports necessários para o DatePickerDialog
 import android.app.DatePickerDialog;
@@ -14,18 +16,14 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
-import java.text.ParseException; // Necessário para parsear a data existente
-
-// Se você não está usando o binding em outras partes, pode remover este import
-// import com.example.peekaboo.databinding.ActivityEditaPetBinding;
-
+import java.text.ParseException;
 
 public class Activity_edita_pet extends AppCompatActivity {
 
     private int petIdToEdit = -1;
     private DatabaseHelper dbHelper;
     private EditText editNome;
-    private EditText editEspecie;
+    private Spinner spinnerEspecie;
     private EditText editDataNasc;
     private EditText editDescricao;
     private Button btnSalvar;
@@ -33,23 +31,25 @@ public class Activity_edita_pet extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // CORREÇÃO: Removendo o binding se você não estiver usando,
-        // e mantendo apenas uma chamada de setContentView.
-        // ActivityEditaPetBinding binding = ActivityEditaPetBinding.inflate(getLayoutInflater());
-        // setContentView(binding.getRoot());
         setContentView(R.layout.activity_edita_pet);
 
         dbHelper = new DatabaseHelper(this);
 
-        // Inicializar Views
+        // 1. Inicializar Views (Obrigatório antes de usar qualquer View)
         editNome = findViewById(R.id.edit_nome);
-        editEspecie = findViewById(R.id.edit_especie);
+        spinnerEspecie = findViewById(R.id.spinner_especie);
         editDataNasc = findViewById(R.id.edit_data_nasc);
         editDescricao = findViewById(R.id.edit_descricao);
         btnSalvar = findViewById(R.id.btn_salvar_edicao);
 
-        // RECEBER O ID DO PET
+        // 2. CONFIGURAR O SPINNER (AGORA A VARIÁVEL 'spinnerEspecie' NÃO É NULA)
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.pet_species_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEspecie.setAdapter(adapter);
+
+
+        // 3. RECEBER O ID DO PET E CARREGAR DADOS
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("pet_id")) {
             petIdToEdit = intent.getIntExtra("pet_id", -1);
@@ -61,11 +61,8 @@ public class Activity_edita_pet extends AppCompatActivity {
             }
         }
 
-        // ==========================================================
-        // INTEGRAÇÃO DO DATEPICKER NO CAMPO DE DATA
-        // ==========================================================
+        // 4. INTEGRAÇÃO DO DATEPICKER
         editDataNasc.setOnClickListener(v -> showDatePickerDialog());
-        // Impede a digitação manual, forçando o uso do calendário
         editDataNasc.setFocusable(false);
         editDataNasc.setCursorVisible(false);
 
@@ -81,10 +78,21 @@ public class Activity_edita_pet extends AppCompatActivity {
         if (cursor != null && cursor.moveToFirst()) {
             try {
                 editNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
-                editEspecie.setText(cursor.getString(cursor.getColumnIndexOrThrow("especie")));
-                // Garante que a data salva (ex: dd/MM/yyyy) é exibida
+
+                // 1. OBTÉM ESPÉCIE SALVA
+                String especieSalva = cursor.getString(cursor.getColumnIndexOrThrow("especie"));
+
+                // 2. SELECIONA A ESPÉCIE NO SPINNER
+                ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerEspecie.getAdapter();
+                int spinnerPosition = adapter.getPosition(especieSalva);
+                if (spinnerPosition >= 0) {
+                    spinnerEspecie.setSelection(spinnerPosition);
+                }
+
+                // Carrega Data e Descrição
                 editDataNasc.setText(cursor.getString(cursor.getColumnIndexOrThrow("datanasc")));
                 editDescricao.setText(cursor.getString(cursor.getColumnIndexOrThrow("descricao")));
+
             } catch (IllegalArgumentException e) {
                 Toast.makeText(this, "Erro: Colunas do banco incompatíveis. Verifique o DB.", Toast.LENGTH_LONG).show();
             }
@@ -98,8 +106,10 @@ public class Activity_edita_pet extends AppCompatActivity {
     /** Executa a operação de UPDATE no banco de dados. */
     private void updatePet() {
         String nome = editNome.getText().toString();
-        String especie = editEspecie.getText().toString();
-        // A data agora é garantida pelo DatePicker no formato dd/MM/yyyy
+
+        // Obtém a espécie do Spinner
+        String especie = spinnerEspecie.getSelectedItem().toString();
+
         String dataNasc = editDataNasc.getText().toString();
         String descricao = editDescricao.getText().toString();
 
@@ -111,7 +121,6 @@ public class Activity_edita_pet extends AppCompatActivity {
         if (dbHelper.updatePetData(petIdToEdit, nome, especie, descricao, dataNasc)) {
             Toast.makeText(this, "Pet atualizado com sucesso!", Toast.LENGTH_LONG).show();
 
-            // Sinaliza para o Fragment que a lista precisa ser recarregada
             setResult(RESULT_OK);
             finish();
         } else {
@@ -123,26 +132,22 @@ public class Activity_edita_pet extends AppCompatActivity {
      * Abre o diálogo do calendário, pré-selecionando a data existente.
      */
     private void showDatePickerDialog() {
-        // Usa a data atual como padrão para inicializar o calendário
         final Calendar c = Calendar.getInstance();
 
-        // Tentativa de parsear a data existente (para o calendário abrir na data correta)
         try {
-            // CORREÇÃO: Usando a variável de classe editDataNasc
             String existingDate = editDataNasc.getText().toString();
             if (!existingDate.isEmpty()) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 c.setTime(sdf.parse(existingDate));
             }
         } catch (ParseException e) {
-            // Se a data for inválida, usa a data atual (padrão)
+            // Se falhar, usa a data atual
         }
 
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Cria o DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 new DatePickerDialog.OnDateSetListener() {
@@ -153,18 +158,14 @@ public class Activity_edita_pet extends AppCompatActivity {
                         Calendar selectedDate = Calendar.getInstance();
                         selectedDate.set(selectedYear, selectedMonth, selectedDay);
 
-                        // Formato: dd/MM/yyyy
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-                        // CORREÇÃO: Usando a variável de classe editDataNasc
                         editDataNasc.setText(sdf.format(selectedDate.getTime()));
                     }
                 },
                 year, month, day);
 
-        // Impede a seleção de datas futuras
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
         datePickerDialog.show();
     }
 }

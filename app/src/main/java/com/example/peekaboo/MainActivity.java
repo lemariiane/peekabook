@@ -1,96 +1,42 @@
 package com.example.peekaboo;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.splashscreen.SplashScreen;
+import android.os.Bundle;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btcriarbanco;
-    SQLiteDatabase db;
-    Button btcadastrar_user;
-    Button btcadastrardados;
-    Button btconsultardados;
-    Button btlogin;
+    // Tempo que o logo ficará na tela (2 segundos = 2000 milissegundos)
+    private static final long SPLASH_DELAY_MS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // 1. INSTALAÇÃO DA SPLASH SCREEN (Obrigatoriamente antes de super.onCreate)
+        // O método 'installSplashScreen()' é um método estático em Java,
+        // mas a importação não é necessária se você usar o nome da classe.
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        btcriarbanco = findViewById(R.id.btcriarbanco);
-        btcadastrar_user = findViewById(R.id.btcadastrar_user);
-        btcadastrardados= findViewById(R.id.btcadastrardados);
-        btlogin = findViewById(R.id.btlogin);
-        btconsultardados = findViewById(R.id.btconsultardados);
-
-        btcriarbanco.setOnClickListener(new View.OnClickListener() {
+        // 2. CONFIGURAÇÃO DO REDIRECIONAMENTO
+        // Usamos um Handler para garantir que o logo permaneça por SPLASH_DELAY_MS antes de redirecionar.
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                try {
-                    DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this);
-                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+            public void run() {
+                // Cria a Intent para iniciar a LoginActivity
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
 
-                    AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.this);
-                    dialogo.setTitle("Aviso")
-                            .setMessage("Banco de dados criado (ou já existente) com sucesso!")
-                            .setNeutralButton("OK", null)
-                            .show();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    AlertDialog.Builder erro = new AlertDialog.Builder(MainActivity.this);
-                    erro.setTitle("Erro")
-                            .setMessage("Falha ao criar o banco: " + e.getMessage())
-                            .setNeutralButton("OK", null)
-                            .show();
-                }
+                // Finaliza a MainActivity (Splash) para que o usuário não possa voltar
+                finish();
             }
-        });
+        }, SPLASH_DELAY_MS);
 
-
-        btcadastrardados.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View args0) {
-                Intent gravaRegistroActivity = new Intent(MainActivity.this,
-                        activity_grava_registros.class);
-                startActivity(gravaRegistroActivity);
-            }
-        });
-
-        btlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View args0) {
-                Intent loginActivity = new Intent(MainActivity.this,
-                        Login.class);
-                startActivity(loginActivity);
-            }
-        });
-
-        btcadastrar_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View args0) {
-                Intent cadastroA = new Intent(MainActivity.this,
-                        Cadastrar_user.class);
-                startActivity(cadastroA);
-            }
-        });
+        // IMPORTANTE: Não chame setContentView() aqui, pois a UI é controlada pelo tema
+        // até o fim do delay, quando a LoginActivity será iniciada.
     }
 }

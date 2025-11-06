@@ -14,11 +14,13 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
+import android.widget.Spinner;
 
 public class activity_grava_registros extends AppCompatActivity {
 
     Button btcadastrar;
-    EditText ednome, especie, datanasc, descricao;
+    EditText ednome, datanasc, descricao;
+    Spinner spinnerEspecie;
     DatabaseHelper dbHelper;
     private int loggedInUserId = -1; // ID do usuário
 
@@ -45,7 +47,7 @@ public class activity_grava_registros extends AppCompatActivity {
 
         btcadastrar = findViewById(R.id.btcadastrar);
         ednome = findViewById(R.id.ednome);
-        especie = findViewById(R.id.especie);
+        spinnerEspecie = findViewById(R.id.spinner_especie);
         datanasc = findViewById(R.id.datanasc);
         descricao = findViewById(R.id.descricao);
 
@@ -65,12 +67,13 @@ public class activity_grava_registros extends AppCompatActivity {
             @Override
             public void onClick(View arg) {
                 String nome = ednome.getText().toString().trim();
-                String petEspecie = especie.getText().toString().trim();
+                String petEspecie = spinnerEspecie.getSelectedItem().toString();
                 String petDatanasc = datanasc.getText().toString().trim();
                 String petDescricao = descricao.getText().toString().trim();
 
-                if (nome.isEmpty() || petEspecie.isEmpty()) {
-                    MostraMensagem("Por favor, preencha o Nome e a Espécie do Pet.");
+                // Melhoria na validação: verifica se a espécie é a opção padrão "Outros" ou vazia
+                if (nome.isEmpty() || petEspecie.isEmpty() || petEspecie.equals("Selecione uma opção padrão se houver")) {
+                    MostraMensagem("Por favor, preencha o Nome e selecione a Espécie do Pet.");
                     return;
                 }
 
@@ -82,9 +85,12 @@ public class activity_grava_registros extends AppCompatActivity {
 
                         // Limpar campos
                         ednome.setText("");
-                        especie.setText("");
+                        // Não limpamos o spinnerEspecie, ele volta para a primeira opção.
                         datanasc.setText("");
                         descricao.setText("");
+
+                        // CORREÇÃO 3: Removendo a linha de código desnecessária (já que 'especie' virou Spinner)
+                        // especie.setText("");
 
                     } else {
                         MostraMensagem("Falha ao cadastrar o Pet. Tente novamente.");

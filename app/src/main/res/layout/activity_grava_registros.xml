@@ -66,15 +66,12 @@
             android:textColor="#000000"
             android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/especie"
+        <Spinner
+            android:id="@+id/spinner_especie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Cão, Gato, Pássaro, Raça (Ex: Labrador)"
-            android:inputType="text"
-            android:minHeight="48dp"
-            tools:ignore="VisualLintTextFieldSize" />
+            android:entries="@array/pet_species_array"
+            android:minHeight="48dp" />
 
         <TextView
             android:layout_width="wrap_content"

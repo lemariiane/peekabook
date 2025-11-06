@@ -4,9 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/um"
+    android:background="@drawable/d"
     android:orientation="vertical"
     tools:context=".Cadastrar_user">
+
+    <LinearLayout
+        android:id="@+id/layoutCorFundo"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="#265AA0"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:text="@string/peekaboo"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +39,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="230dp"
+                android:layout_marginTop="240dp"
                 android:orientation="vertical"
                 android:padding="20dp">
 
@@ -65,7 +84,7 @@
                     android:layout_marginTop="14dp"
                     android:padding="8dp"
                     android:text="Not yet registered? Signup"
-                    android:textColor="@color/lavender"
+                    android:textColor="@color/blue"
                     android:textSize="18sp" />
 
             </LinearLayout>
