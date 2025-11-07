@@ -7,14 +7,12 @@
     android:orientation="vertical"
     android:background="@drawable/fundo1">
 
-
     <LinearLayout
         android:id="@+id/layoutCorFundo"
         android:layout_width="match_parent"
         android:layout_height="84dp"
         android:background="#054F77"
         android:gravity="center">
-
 
         <TextView
             android:id="@+id/textView2"
@@ -27,21 +25,17 @@
             android:textSize="30sp" />
     </LinearLayout>
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-
         <ImageView
             android:id="@+id/imagemCentral"
             android:layout_width="450dp"
             android:layout_height="405dp"
-
             android:contentDescription="@string/todo"
             android:src="@drawable/fundo_bem_vindo" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,5 +84,4 @@
                 android:text="@string/consultar_dados" />
         </LinearLayout>
     </FrameLayout>
-
 </LinearLayout>

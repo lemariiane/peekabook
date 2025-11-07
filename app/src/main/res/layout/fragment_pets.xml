@@ -11,7 +11,8 @@
         android:id="@+id/fragment_pets_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Meus Pets Cadastrados"
+        android:layout_marginTop="55dp"
+        android:text="Meus Pets"
         android:textSize="22sp"
         android:textStyle="bold"
         android:padding="8dp"/>

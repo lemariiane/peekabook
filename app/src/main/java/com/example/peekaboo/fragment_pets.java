@@ -82,11 +82,6 @@ public class fragment_pets extends Fragment implements PetAdapter.PetActionListe
         petAdapter = new PetAdapter(getContext(), petList, this);
         recyclerViewPets.setAdapter(petAdapter);
 
-        TextView testView = view.findViewById(R.id.fragment_pets_title);
-        if (testView != null) {
-            testView.setText("Pets do Usuário ID: " + (loggedInUserId != -1 ? loggedInUserId : "Erro"));
-        }
-
         loadPetsData();
 
         return view;

@@ -1,82 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/dois"
+    android:background="@drawable/fundo_cadastro"
     tools:context=".Cadastrar_user">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="80dp"
+        android:fontFamily="casual"
+        android:text="CRIE SUA CONTA"
+        android:textColor="@color/blue"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/scroll_form"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ScrollView
+        android:id="@+id/scroll_form"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginHorizontal="24dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHeight_default="wrap">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="260dp"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="8dp"
+            android:gravity="center_horizontal">
 
             <EditText
                 android:id="@+id/signup_nome"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/lavender_border"
-                android:drawableLeft="@drawable/outline_user_product_24"
-                android:drawablePadding="8dp"
-                android:hint="Digite seu nome"
+                android:background="@drawable/gray_border"
+                android:drawableStart="@drawable/outline_user_product_24"
+                android:drawablePadding="12dp"
+                android:hint="Nome de Usuário"
                 android:inputType="text"
-                android:padding="8dp" />
+                android:padding="16dp"
+                android:textColorHint="@android:color/darker_gray" />
 
             <EditText
                 android:id="@+id/signup_email"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/lavender_border"
-                android:drawableLeft="@drawable/baseline_email_24"
-                android:drawablePadding="8dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/gray_border"
+                android:drawableStart="@drawable/baseline_email_24"
+                android:drawablePadding="12dp"
                 android:hint="Email"
-                android:padding="8dp" />
+                android:inputType="textEmailAddress"
+                android:padding="16dp"
+                android:textColorHint="@android:color/darker_gray" />
 
             <EditText
                 android:id="@+id/signup_password"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/lavender_border"
-                android:drawableLeft="@drawable/outline_border_color_24"
-                android:drawablePadding="8dp"
-                android:hint="Password"
+                android:background="@drawable/gray_border"
+                android:drawableStart="@drawable/outline_border_color_24"
+                android:drawablePadding="12dp"
+                android:hint="Senha"
                 android:inputType="textPassword"
-                android:padding="8dp" />
+                android:padding="16dp"
+                android:textColorHint="@android:color/darker_gray" />
 
             <Button
                 android:id="@+id/btcadastrar_user"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="30dp"
-                android:text="Sign Up"
-                android:textSize="18sp"
-                app:cornerRadius="30dp" />
-
+                android:layout_marginTop="32dp"
+                android:text="Criar Conta"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/blue"
+                app:cornerRadius="15dp" />
 
             <TextView
                 android:id="@+id/loginRedirectText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:text="Already an user? Login"
-                android:textColor="@color/lavender"
-                android:textSize="18sp" />
+                android:text="Já possui uma conta? Entrar"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
 
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

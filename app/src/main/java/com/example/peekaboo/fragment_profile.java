@@ -138,7 +138,7 @@ public class fragment_profile extends Fragment {
      * Lógica de Logout
      */
     private void performLogout() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Intent intent = new Intent(getActivity(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpa a pilha de Activities
         startActivity(intent);
         if (getActivity() != null) {

@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.text.SimpleDateFormat;
 import android.widget.Spinner;
 
-public class activity_grava_registros extends AppCompatActivity {
+public class activity_cadastrar_pet extends AppCompatActivity {
 
     Button btcadastrar;
     EditText ednome, datanasc, descricao;
@@ -28,7 +28,7 @@ public class activity_grava_registros extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_grava_registros);
+        setContentView(R.layout.activity_cadastrar_pet);
 
         dbHelper = new DatabaseHelper(this);
 
@@ -140,7 +140,7 @@ public class activity_grava_registros extends AppCompatActivity {
 
     public void MostraMensagem (String str){
         AlertDialog.Builder dialogo = new
-                AlertDialog.Builder (activity_grava_registros.this);
+                AlertDialog.Builder (activity_cadastrar_pet.this);
         dialogo.setTitle ("Aviso") ;
         dialogo.setMessage (str) ;
         dialogo.setNeutralButton ("OK", null);

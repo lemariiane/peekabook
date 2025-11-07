@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
+    android:background="@drawable/fundo_curiosity"
     tools:context=".fragment_curiosity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Curiosidades do Mundo Pet"
+        android:textColor="#133566"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"

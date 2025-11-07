@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:orientation="vertical"
-    tools:context=".activity_grava_registros"> <LinearLayout
+    android:background="@drawable/h"
+    tools:context=".activity_cadastrar_pet">
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#3ba0e2" >
@@ -14,16 +17,17 @@
         android:id="@+id/layoutCorFundo"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:background="#f4797d"
+        android:background="@color/blue"
+        android:padding="20dp"
         android:gravity="center" >
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CADASTRO DE ANIMAL"
+            android:text="CADASTRE SEU PET"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#5E35B1" />
+            android:textColor="@color/gray" />
     </LinearLayout>
 </LinearLayout>
 
@@ -32,7 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="16dp"> <TextView
+        android:padding="16dp">
+
+        <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Espécie"
+            android:text="Escolha a espécie"
             android:textColor="#000000"
             android:textSize="18sp" />
 
@@ -70,6 +76,7 @@
             android:id="@+id/spinner_especie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/gray_border"
             android:entries="@array/pet_species_array"
             android:minHeight="48dp" />
 
@@ -77,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Data de Nascimento (dd/mm/aaaa)"
+            android:text="Data de Nascimento"
             android:textColor="#000000"
             android:textSize="18sp" />
 
@@ -86,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="01/01/2023 ou Idade Aproximada"
+            android:hint="Escolha a data de nascimento"
             android:inputType="date"
             android:minHeight="48dp"
             tools:ignore="VisualLintTextFieldSize" />
@@ -104,12 +111,12 @@
             android:id="@+id/descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="top|start"
             android:hint="Cor, marcas distintivas, problemas de saúde, etc."
             android:inputType="textMultiLine"
             android:lines="3"
-            android:maxLines="5"
-            android:gravity="top|start"
-            android:layout_marginBottom="12dp"/>
+            android:maxLines="5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,6 +127,7 @@
                 android:id="@+id/btcadastrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REGISTRAR PET" /> </LinearLayout>
+                android:text="REGISTRAR PET" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -4,19 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.peekaboo.activity_grava_registros;
 import com.example.peekaboo.databinding.ActivityTelaPrincipalBinding;
-import com.example.peekaboo.R;
-
 
 public class Tela_principal extends AppCompatActivity {
 
-    ActivityTelaPrincipalBinding binding;
+    private ActivityTelaPrincipalBinding binding;
     private String userEmailLogado = null;
     private int loggedInUserId = -1;
     private DatabaseHelper dbHelper;
@@ -24,38 +20,47 @@ public class Tela_principal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Inicialização do View Binding
         binding = ActivityTelaPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Inicialização do DatabaseHelper
         dbHelper = new DatabaseHelper(this);
 
+        // --- 1. Processamento de Login e ID do Usuário ---
         Intent incomingIntent = getIntent();
         if (incomingIntent != null && incomingIntent.hasExtra("user_email")) {
             userEmailLogado = incomingIntent.getStringExtra("user_email");
 
+            // Busca o ID usando o email do usuário
             loggedInUserId = dbHelper.getUserId(userEmailLogado);
         }
 
         if (loggedInUserId == -1) {
             Toast.makeText(this, "Erro: Usuário não identificado. Faça login novamente.", Toast.LENGTH_LONG).show();
+            // Considere adicionar lógica para forçar o logout ou redirecionar para a tela de login
         }
 
+        // --- 2. Floating Action Button (FAB) Listener ---
         binding.fab.setOnClickListener(view -> {
-            Intent intent = new Intent(Tela_principal.this, activity_grava_registros.class);
+            Intent intent = new Intent(Tela_principal.this, activity_cadastrar_pet.class);
 
-            //RETRANSMITIR O EMAIL (A activity de gravação usa o email para buscar o ID)
+            // Retransmite o email para a próxima Activity
             if (userEmailLogado != null) {
                 intent.putExtra("user_email", userEmailLogado);
             }
             startActivity(intent);
         });
 
-        // Chama uma nova versão do replaceFragment que sabe passar dados.
+        // --- 3. Inicialização e Navegação dos Fragments ---
+
+        // Carrega o fragmento inicial (Home) com os dados do usuário
         replaceFragment(new fragment_home(), loggedInUserId, userEmailLogado);
+
+        // Configura a BottomNavigationView
         binding.bottomNavigationView.setBackground(null);
-
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
             int itemId = item.getItemId();
 
             if (itemId == R.id.home) {
@@ -67,19 +72,23 @@ public class Tela_principal extends AppCompatActivity {
             } else if (itemId == R.id.profile) {
                 replaceFragment(new fragment_profile(), loggedInUserId, userEmailLogado);
             }
-
             return true;
         });
     }
 
-    //SOBRECARREGADO PARA PASSAR DADOS
-    private void replaceFragment(Fragment fragment, int userId, String email) {
+    // --- 4. Método para Substituir o Fragment e Passar Dados ---
 
+    /**
+     * Substitui o Fragment atual e passa o ID e Email do usuário logado.
+     */
+    private void replaceFragment(Fragment fragment, int userId, String email) {
+        // Empacota os dados para enviar ao Fragment
         Bundle args = new Bundle();
         args.putInt("user_id", userId);
         args.putString("user_email", email);
         fragment.setArguments(args);
 
+        // Executa a transação do Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
