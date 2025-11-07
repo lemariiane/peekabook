@@ -52,7 +52,7 @@
 
         <activity
 
-            android:name=".activity_cadastrar_pet"
+            android:name=".Activity_cadastrar_pet"
 
             android:exported="false" />
         <activity

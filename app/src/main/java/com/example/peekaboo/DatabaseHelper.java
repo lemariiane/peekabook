@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String databaseName = "SignLog.db";
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, databaseName, null, 6);
+        super(context, databaseName, null, 8);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "datanasc TEXT, " +
                 "descricao TEXT, " +
                 "user_id INTEGER, " +
-                "FOREIGN KEY(user_id) REFERENCES users(id))");
+                "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS lembretes(" +
                 "lembrete_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -46,8 +46,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "data TEXT NOT NULL, " +
                 "hora TEXT NOT NULL, " +
                 "ativo INTEGER DEFAULT 1, " + // 1 = Ativo, 0 = Concluído
-                "FOREIGN KEY(user_id) REFERENCES users(id), " +
-                "FOREIGN KEY(pet_id) REFERENCES pets(pet_id))");
+                "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY(pet_id) REFERENCES pets(pet_id) ON DELETE CASCADE)");
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_keys = ON;");
+        }
     }
 
 @Override

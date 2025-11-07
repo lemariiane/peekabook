@@ -77,8 +77,8 @@ public class Activity_grava_lembrete extends AppCompatActivity {
     private void loadPetsToSpinner() {
 
         List<String> petNames = new ArrayList<>();
-        petNames.add("Lembrete Geral");
-        petMap.put("Lembrete Geral", -1); // ID -1 representa que nenhum pet foi selecionado
+        petNames.add("Escolha o pet");
+        petMap.put("Escolha o pet", -1); // ID -1 representa que nenhum pet foi selecionado
 
         List<PetModel> pets = dbHelper.getAllPetsForUser(loggedInUserId);
 

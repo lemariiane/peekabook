@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.text.SimpleDateFormat;
 import android.widget.Spinner;
 
-public class activity_cadastrar_pet extends AppCompatActivity {
+public class Activity_cadastrar_pet extends AppCompatActivity {
 
     Button btcadastrar;
     EditText ednome, datanasc, descricao;
@@ -136,7 +136,7 @@ public class activity_cadastrar_pet extends AppCompatActivity {
 
     public void MostraMensagem (String str){
         AlertDialog.Builder dialogo = new
-                AlertDialog.Builder (activity_cadastrar_pet.this);
+                AlertDialog.Builder (Activity_cadastrar_pet.this);
         dialogo.setTitle ("Aviso") ;
         dialogo.setMessage (str) ;
         dialogo.setNeutralButton ("OK", null);

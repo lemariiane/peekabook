@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:orientation="vertical"
     android:background="@drawable/fundo_cadastro_pet"
-    tools:context=".activity_cadastrar_pet">
+    tools:context=".Activity_cadastrar_pet">
 
     <LinearLayout
     android:layout_width="match_parent"

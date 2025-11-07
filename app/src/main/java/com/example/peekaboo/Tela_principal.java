@@ -38,7 +38,7 @@ public class Tela_principal extends AppCompatActivity {
         }
 
         binding.fab.setOnClickListener(view -> {
-            Intent intent = new Intent(Tela_principal.this, activity_cadastrar_pet.class);
+            Intent intent = new Intent(Tela_principal.this, Activity_cadastrar_pet.class);
 
             // retransmite o email para a próxima Activity
             if (userEmailLogado != null) {
