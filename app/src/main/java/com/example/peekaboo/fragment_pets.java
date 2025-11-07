@@ -61,7 +61,7 @@ public class fragment_pets extends Fragment implements PetAdapter.PetActionListe
                 result -> {
                     if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                         Toast.makeText(getContext(), "Lista de pets atualizada.", Toast.LENGTH_SHORT).show();
-                        loadPetsData(); // Recarrega a lista para mostrar as mudanças
+                        loadPetsData(); // recarrega a lista para mostrar as mudanças
                     }
                 });
     }
@@ -92,9 +92,9 @@ public class fragment_pets extends Fragment implements PetAdapter.PetActionListe
         showDeleteConfirmationDialog(petId);
     }
 
-    /**
-     * Mostra um diálogo de confirmação antes de deletar o Pet.
-     */
+
+     //Mostrar antes de deletar o Pet.
+
     private void showDeleteConfirmationDialog(int petId) {
         new AlertDialog.Builder(getContext())
                 .setTitle("Confirmar Exclusão")
@@ -106,16 +106,11 @@ public class fragment_pets extends Fragment implements PetAdapter.PetActionListe
                 .show();
     }
 
-    /**
-     * Executa a deleção no DatabaseHelper e recarrega a lista.
-     */
-
     @Override
     public void onEditPet(int petId) {
         Intent intent = new Intent(getContext(), Activity_edita_pet.class);
         intent.putExtra("pet_id", petId);
 
-        // Inicia a Activity esperando um resultado (se a edição foi salva)
         editPetLauncher.launch(intent);
     }
     private void executeDelete(int petId) {

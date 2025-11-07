@@ -22,7 +22,7 @@ public class activity_cadastrar_pet extends AppCompatActivity {
     EditText ednome, datanasc, descricao;
     Spinner spinnerEspecie;
     DatabaseHelper dbHelper;
-    private int loggedInUserId = -1; // ID do usuário
+    private int loggedInUserId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class activity_cadastrar_pet extends AppCompatActivity {
             loggedInUserId = dbHelper.getUserId(userEmail);
         }
 
-        // Verifica se o ID do usuário foi encontrado
+        // Vê se o usuário foi encontrado
         if (loggedInUserId == -1) {
             MostraMensagem("Erro: ID do usuário logado não encontrado. Não é possível cadastrar o Pet.");
             finish();
@@ -71,7 +71,7 @@ public class activity_cadastrar_pet extends AppCompatActivity {
                 String petDatanasc = datanasc.getText().toString().trim();
                 String petDescricao = descricao.getText().toString().trim();
 
-                // Melhoria na validação: verifica se a espécie é a opção padrão "Outros" ou vazia
+                // verifica se a espécie é a opção padrão "Outros" ou vazia
                 if (nome.isEmpty() || petEspecie.isEmpty() || petEspecie.equals("Selecione uma opção padrão se houver")) {
                     MostraMensagem("Por favor, preencha o Nome e selecione a Espécie do Pet.");
                     return;
@@ -85,12 +85,9 @@ public class activity_cadastrar_pet extends AppCompatActivity {
 
                         // Limpar campos
                         ednome.setText("");
-                        // Não limpamos o spinnerEspecie, ele volta para a primeira opção.
                         datanasc.setText("");
                         descricao.setText("");
 
-                        // CORREÇÃO 3: Removendo a linha de código desnecessária (já que 'especie' virou Spinner)
-                        // especie.setText("");
 
                     } else {
                         MostraMensagem("Falha ao cadastrar o Pet. Tente novamente.");
@@ -103,9 +100,8 @@ public class activity_cadastrar_pet extends AppCompatActivity {
         });
     }
 
-    /**
-     * Abre o diálogo do calendário para seleção de data de nascimento.
-     */
+// Abre o diálogo do calendário para seleção de data de nascimento.
+
     private void showDatePickerDialog() {
         // Usa a data atual como padrão para inicializar o calendário
         final Calendar c = Calendar.getInstance();
@@ -120,7 +116,7 @@ public class activity_cadastrar_pet extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int selectedYear,
                                           int selectedMonth, int selectedDay) {
 
-                        // O mês retornado é baseado em zero (0=Janeiro)
+                        // o mês retornado é baseado em zero (0=Janeiro)
                         Calendar selectedDate = Calendar.getInstance();
                         selectedDate.set(selectedYear, selectedMonth, selectedDay);
 

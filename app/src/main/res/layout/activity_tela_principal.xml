@@ -19,7 +19,7 @@
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/gray"
+            android:background="@color/blue"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -33,7 +33,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="0dp"
-                    android:src="@drawable/logohhh"
+                    android:src="@drawable/logo"
                     android:layout_marginEnd="8dp"/>
 
                 <TextView

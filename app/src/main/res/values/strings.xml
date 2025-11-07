@@ -30,4 +30,14 @@
             <item>Peixe</item>
             <item>Outros</item>
         </string-array>
+    <string-array name="tipos_lembrete_array">
+        <item>Vacina</item>
+        <item>Medicamento</item>
+        <item>Consulta</item>
+        <item>Banho/Tosa</item>
+        <item>Alimentação Especial</item>
+        <item>Outro</item>
+    </string-array>
+
+    <string name="selecione_o_pet">Selecione o Pet</string>
 </resources>

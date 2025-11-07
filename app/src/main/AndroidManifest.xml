@@ -55,6 +55,12 @@
             android:name=".activity_cadastrar_pet"
 
             android:exported="false" />
+        <activity
+            android:name=".Activity_grava_lembrete"
+            android:exported="false"
+            android:label="Novo Lembrete"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
         <activity
 

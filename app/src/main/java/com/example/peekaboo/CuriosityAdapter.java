@@ -38,7 +38,7 @@ public class CuriosityAdapter extends RecyclerView.Adapter<CuriosityAdapter.Curi
 
         holder.title.setText(curiosity.getTitle());
 
-        // Um snippet do fato para exibir no card (máx. 100 caracteres)
+        // máx. 100 caracteres
         String fullFact = curiosity.getFact();
         String snippet = fullFact.length() > 100 ?
                 fullFact.substring(0, 100) + "..." :

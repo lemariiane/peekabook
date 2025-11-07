@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
 
-                // Finaliza a MainActivity (Splash) para que o usuário não possa voltar
+                // Finaliza a MainActivity para que o usuário não possa voltar
                 finish();
             }
         }, SPLASH_DELAY_MS);

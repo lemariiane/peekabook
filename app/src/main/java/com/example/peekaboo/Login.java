@@ -47,9 +47,9 @@ public class Login extends AppCompatActivity {
                     Intent i = new Intent(Login.this, Tela_principal.class);
                     i.putExtra("user_email", email);
                     startActivity(i);
-                    finish(); // Adicionado para fechar a tela de login
+                    finish(); // fecha a tela de login
                 } else {
-                    MostraMensagem("Usuário não encontrado. Verifique seus dados!");
+                    MostraMensagem("Usuário ou senha inválidos. Verifique seus dados!");
                 }
             }
         });

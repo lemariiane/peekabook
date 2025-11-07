@@ -64,18 +64,15 @@ public class fragment_profile extends Fragment {
 
         loadUserProfile();
 
-        // Configura Listener para Salvar
         btnSalvar.setOnClickListener(v -> saveProfileChanges());
-
-        // Configura Listener para Logout
         btnLogout.setOnClickListener(v -> performLogout());
 
         return view;
     }
 
-    /**
-     * Carrega os dados do usuário logado e preenche os campos.
-     */
+
+     // Carrega os dados do usuário logado e preenche os campos.
+
     private void loadUserProfile() {
         if (dbHelper == null || loggedInUserId == -1) {
             Toast.makeText(getContext(), "Erro: ID do usuário inválido.", Toast.LENGTH_SHORT).show();
@@ -87,7 +84,7 @@ public class fragment_profile extends Fragment {
                 editNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
                 editEmail.setText(cursor.getString(cursor.getColumnIndexOrThrow("email")));
 
-                // Senha não é carregada por segurança, apenas é editada
+                // Senha não é carregada pela segurança, mas pode ser editada
                 editPassword.setText("");
             } else {
                 Toast.makeText(getContext(), "Usuário não encontrado.", Toast.LENGTH_LONG).show();
@@ -97,9 +94,9 @@ public class fragment_profile extends Fragment {
         }
     }
 
-    /**
-     * Lógica de Salvar Alterações de Perfil
-     */
+
+     // Lógica de Salvar Alterações de Perfil
+
     private void saveProfileChanges() {
         String novoNome = editNome.getText().toString().trim();
         String novaSenha = editPassword.getText().toString();
@@ -118,7 +115,7 @@ public class fragment_profile extends Fragment {
                 return;
             }
 
-            senhaParaSalvar = novaSenha; // hashPassword(novaSenha);
+            senhaParaSalvar = novaSenha;
         }
 
         // Chama o método de UPDATE
@@ -127,16 +124,16 @@ public class fragment_profile extends Fragment {
 
             editPassword.setText("");
 
-            // Recarrega o perfil para confirmar os novos dados (especialmente útil se o nome for alterado)
+            // Recarrega o perfil para confirmar os novos dados
             loadUserProfile();
         } else {
             Toast.makeText(getContext(), "Nenhuma alteração foi salva ou ocorreu um erro.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Lógica de Logout
-     */
+
+     // Logout
+
     private void performLogout() {
         Intent intent = new Intent(getActivity(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpa a pilha de Activities

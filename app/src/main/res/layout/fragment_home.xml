@@ -32,7 +32,7 @@
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp"
-            app:cardBackgroundColor="#133566">
+            app:cardBackgroundColor="#1F3A5F">
 
             <LinearLayout
             android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                 android:id="@+id/tv_next_reminder_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ainda não implementamos a função de lembretes, mas aqui você verá:\n- Vacina V8 do Max (Amanhã)\n- Banho da Luna (Quarta)"
+                android:text="- Vacina V8 do Max (dd/mm/aaaa) as hh:mm\n- Banho da Luna (dd/mm/aaaa) as hh:mm"
                 android:textSize="16sp"
                 android:textColor="#333333"/>
         </androidx.cardview.widget.CardView>

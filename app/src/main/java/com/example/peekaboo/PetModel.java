@@ -8,7 +8,6 @@ public class PetModel {
     private String descricao;
     private int userId;
 
-    // Construtor
     public PetModel(int petId, String nome, String especie, String dataNasc, String descricao, int userId) {
         this.petId = petId;
         this.nome = nome;

@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ArrayAdapter; // Necessário para o Spinner
+import android.widget.ArrayAdapter;
 
-// Imports necessários para o DatePickerDialog
+// DatePickerDialog
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 import java.util.Calendar;
@@ -35,33 +35,29 @@ public class Activity_edita_pet extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // 1. Inicializar Views (Obrigatório antes de usar qualquer View)
         editNome = findViewById(R.id.edit_nome);
         spinnerEspecie = findViewById(R.id.spinner_especie);
         editDataNasc = findViewById(R.id.edit_data_nasc);
         editDescricao = findViewById(R.id.edit_descricao);
         btnSalvar = findViewById(R.id.btn_salvar_edicao);
 
-        // 2. CONFIGURAR O SPINNER (AGORA A VARIÁVEL 'spinnerEspecie' NÃO É NULA)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.pet_species_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEspecie.setAdapter(adapter);
 
 
-        // 3. RECEBER O ID DO PET E CARREGAR DADOS
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("pet_id")) {
             petIdToEdit = intent.getIntExtra("pet_id", -1);
             if (petIdToEdit != -1) {
-                loadPetData(); // Carrega os dados atuais do pet
+                loadPetData();
             } else {
                 Toast.makeText(this, "Erro: ID do pet inválido.", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
 
-        // 4. INTEGRAÇÃO DO DATEPICKER
         editDataNasc.setOnClickListener(v -> showDatePickerDialog());
         editDataNasc.setFocusable(false);
         editDataNasc.setCursorVisible(false);
@@ -71,7 +67,7 @@ public class Activity_edita_pet extends AppCompatActivity {
         });
     }
 
-    /** Carrega os dados atuais do pet usando o petIdToEdit. */
+    // carrega dados atuais do pet
     private void loadPetData() {
         Cursor cursor = dbHelper.getPetById(petIdToEdit);
 
@@ -79,17 +75,14 @@ public class Activity_edita_pet extends AppCompatActivity {
             try {
                 editNome.setText(cursor.getString(cursor.getColumnIndexOrThrow("nome")));
 
-                // 1. OBTÉM ESPÉCIE SALVA
                 String especieSalva = cursor.getString(cursor.getColumnIndexOrThrow("especie"));
 
-                // 2. SELECIONA A ESPÉCIE NO SPINNER
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerEspecie.getAdapter();
                 int spinnerPosition = adapter.getPosition(especieSalva);
                 if (spinnerPosition >= 0) {
                     spinnerEspecie.setSelection(spinnerPosition);
                 }
 
-                // Carrega Data e Descrição
                 editDataNasc.setText(cursor.getString(cursor.getColumnIndexOrThrow("datanasc")));
                 editDescricao.setText(cursor.getString(cursor.getColumnIndexOrThrow("descricao")));
 
@@ -103,13 +96,11 @@ public class Activity_edita_pet extends AppCompatActivity {
         }
     }
 
-    /** Executa a operação de UPDATE no banco de dados. */
+    // UPDATE
     private void updatePet() {
+
         String nome = editNome.getText().toString();
-
-        // Obtém a espécie do Spinner
         String especie = spinnerEspecie.getSelectedItem().toString();
-
         String dataNasc = editDataNasc.getText().toString();
         String descricao = editDescricao.getText().toString();
 
@@ -128,9 +119,8 @@ public class Activity_edita_pet extends AppCompatActivity {
         }
     }
 
-    /**
-     * Abre o diálogo do calendário, pré-selecionando a data existente.
-     */
+    //Abre o calendário
+
     private void showDatePickerDialog() {
         final Calendar c = Calendar.getInstance();
 
@@ -141,7 +131,7 @@ public class Activity_edita_pet extends AppCompatActivity {
                 c.setTime(sdf.parse(existingDate));
             }
         } catch (ParseException e) {
-            // Se falhar, usa a data atual
+
         }
 
         int year = c.get(Calendar.YEAR);

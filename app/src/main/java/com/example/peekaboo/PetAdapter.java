@@ -39,7 +39,6 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
         holder.btnDeletePet.setOnClickListener(v -> {
             if (actionListener != null) {
-                // Chama o método do Fragment, passando o ID do Pet a ser deletado
                 actionListener.onDeletePet(pet.getPetId());
             } else {
                 Toast.makeText(context, "Erro: Listener de exclusão não configurado.", Toast.LENGTH_SHORT).show();
@@ -48,7 +47,6 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
         holder.btnEditPet.setOnClickListener(v -> {
             if (actionListener != null) {
-                // Chama a função de edição do Fragment, passando o ID do Pet
                 actionListener.onEditPet(pet.getPetId());
             }
         });
@@ -59,7 +57,6 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         return petList.size();
     }
 
-    // Classe interna que armazena as views de cada item
     public static class PetViewHolder extends RecyclerView.ViewHolder {
         TextView textPetName;
         TextView textPetDetails;

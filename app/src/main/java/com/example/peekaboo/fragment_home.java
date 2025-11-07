@@ -1,6 +1,6 @@
-// Arquivo: fragment_home.java
 package com.example.peekaboo;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -10,13 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit; // Para calcular diferença de dias
+import java.util.concurrent.TimeUnit; // para calcular diferença de dias
 
 public class fragment_home extends Fragment {
 
@@ -61,16 +65,30 @@ public class fragment_home extends Fragment {
         tvSaudacao = view.findViewById(R.id.tv_home_saudacao);
         tvProximoEvento = view.findViewById(R.id.tv_proximo_evento);
         tvPetSummary = view.findViewById(R.id.tv_pet_summary);
+        MaterialButton btnAddReminder = view.findViewById(R.id.btn_add_reminder_home);
+        TextView tvNextLembretes = view.findViewById(R.id.tv_next_reminder_placeholder);
+
+        btnAddReminder.setOnClickListener(v -> {
+            if (loggedInUserId != -1) {
+                // **Este Intent é o que abre a tela de cadastro**
+                Intent intent = new Intent(getContext(), Activity_grava_lembrete.class);
+                intent.putExtra("user_id", loggedInUserId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "Erro: Usuário não identificado.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         loadUserData();
         loadPetSummary();
+        loadAndDisplayLembretes(tvNextLembretes);
 
         return view;
     }
 
-    /**
-     * Busca o nome do usuário e atualiza a saudação.
-     */
+
+    // Busca o nome do usuário para a  saudação.
+
     private void loadUserData() {
         if (dbHelper == null || loggedInUserId == -1) {
             tvSaudacao.setText("Olá!");
@@ -87,9 +105,8 @@ public class fragment_home extends Fragment {
         }
     }
 
-    /**
-     * Busca todos os pets para calcular o próximo aniversário e o total.
-     */
+     // Busca todos os pets para calcular o próximo aniversário e o total.
+
     private void loadPetSummary() {
         if (dbHelper == null) return;
 
@@ -107,9 +124,9 @@ public class fragment_home extends Fragment {
         }
     }
 
-    /**
-     * Itera sobre os pets e encontra o próximo aniversário.
-     */
+
+     // Itera sobre os pets e encontra o próximo aniversário.
+
     private void findNextBirthday(Cursor cursor) {
         String nextPetName = null;
         long smallestDaysDifference = Long.MAX_VALUE;
@@ -166,4 +183,38 @@ public class fragment_home extends Fragment {
             tvProximoEvento.setText("Nenhum evento futuro encontrado.");
         }
     }
+
+    private void loadAndDisplayLembretes(TextView textView) {
+        if (getActivity() == null) return;
+
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+         int userId = this.loggedInUserId;
+
+        if (loggedInUserId == -1) {
+            textView.setText("Erro: ID de usuário não encontrado.");
+            return;
+        }
+
+        List<LembreteModel> lembretes = dbHelper.getAllLembretesForUser(loggedInUserId);
+
+        if (lembretes.isEmpty()) {
+            textView.setText("Nenhum lembrete agendado.");
+        } else {
+            StringBuilder sb = new StringBuilder("Próximos Lembretes:\n");
+            int count = 0;
+            for (LembreteModel lembrete : lembretes) {
+                if (count >= 5) break; // Limita a 5 itens
+
+                String petInfo = lembrete.getPetNome();
+                String linha = String.format("- %s de %s, em %s às %s",
+                        lembrete.getTipo(),
+                        petInfo,
+                        lembrete.getData(),
+                        lembrete.getHora());
+
+                sb.append(linha).append("\n");
+                count++;
+            }
+            textView.setText(sb.toString());
+        }}
 }

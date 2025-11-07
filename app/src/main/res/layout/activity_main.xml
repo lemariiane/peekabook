@@ -4,8 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/fundo1">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/layoutCorFundo"
@@ -34,8 +33,7 @@
             android:id="@+id/imagemCentral"
             android:layout_width="450dp"
             android:layout_height="405dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/fundo_bem_vindo" />
+            android:contentDescription="@string/todo" />
 
         <LinearLayout
             android:layout_width="match_parent"

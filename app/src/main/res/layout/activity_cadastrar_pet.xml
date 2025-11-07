@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:orientation="vertical"
-    android:background="@drawable/h"
+    android:background="@drawable/fundo_cadastro_pet"
     tools:context=".activity_cadastrar_pet">
 
     <LinearLayout

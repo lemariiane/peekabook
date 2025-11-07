@@ -38,9 +38,7 @@ public class fragment_curiosity extends Fragment implements CuriosityAdapter.Cur
         return view;
     }
 
-    /**
-     * Função que preenche a lista com curiosidades.
-     */
+    //Função que preenche a lista com curiosidades.
     private void loadCuriosities() {
         curiosityList.add(new CuriosityModel(
                 "Quanto tempo um gato passa dormindo?",
@@ -62,7 +60,6 @@ public class fragment_curiosity extends Fragment implements CuriosityAdapter.Cur
                 "Por que os gatos precisam arranhar?",
                 "Arranhar é um comportamento essencial. Eles não fazem isso apenas para afiar as garras, mas também para se alongar e deixar marcas de cheiro (feromônios) nas superfícies, delimitando seu território."
         ));
-        // Dentro do método loadCuriosities() em fragment_curiosity.java:
 
         curiosityList.add(new CuriosityModel(
                 "Por que os cães giram antes de deitar?",
